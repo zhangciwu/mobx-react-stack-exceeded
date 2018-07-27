@@ -16,7 +16,8 @@ function getWraped() {
 	let r = inject(stores => ({
 		name: stores.userStore.name
 	}))(observer(NameDisplayer));
-	r.nameOfClass = 'something';
+	//    ^^^^^  NameDisplayer got altered
+
 	return r;
 }
 
@@ -25,9 +26,6 @@ const user = mobx.observable({
 })
 
 class Name2 extends Component {
-	constructor(props) {
-		super(props);
-	}
 	render() {
 		let UserNameDisplayer = getWraped();
 		return <div><UserNameDisplayer/></div>
@@ -35,20 +33,13 @@ class Name2 extends Component {
 }
 
 function getHtml() {
-	return renderToString(React.createElement(
-		Provider,
-		{userStore: user},
-		React.createElement(Name2, null),
-	),)
+	return renderToString(
+		<Provider userStore={user}>
+			<Name2/>
+		</Provider>
+	)
 }
-
-// console.log(getHtml());
-
 
 for (let i = 0; i < 50000; i++) {
 	console.log(i, getHtml())
 }
-
-// console.log(NameDisplayer, NameDisplayer.prototype.render);
-
-// console.log(renderToString(App));
