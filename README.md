@@ -34,4 +34,5 @@ I got the error at 9603th loop (may vary between platforms)
 
 # Source code
 
-see `index.jsx`
+see `index.jsx` 
+the "Altering" happens at line 18.
